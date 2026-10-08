@@ -69,6 +69,7 @@
     if (!ok) return say(T.fail, true);
 
     if (window.gtag) gtag("event", "request_sent", { request_kind: kind, has_file: file ? "yes" : "no", file_uploaded: uploaded ? "yes" : "no", value: quote ? quote.total_usd : undefined, currency: "USD" });
+    say("");
     form.hidden = true;
     const done = $("#reqdone");
     done.hidden = false;

@@ -353,7 +353,7 @@ def example_cards(lang):
         sz = " × ".join(f"{v:.0f}" for v in x["m"]["size_mm"])
         name, d = (ar, ar_d) if lang == "ar" else (en, en_d)
         about = "حوالي" if lang == "ar" else "about"
-        meta = f"{mat} · {sz} {'ملم' if lang == 'ar' else 'mm'} · {x['q']['grams']:.0f} {'غ' if lang == 'ar' else 'g'}"
+        meta = f"{mat} · <bdi dir=\"ltr\">{sz} mm</bdi> · <bdi dir=\"ltr\">{x['q']['grams']:.0f} g</bdi>"
         cta = "جرّب سعرو بالتسعير الفوري ←" if lang == "ar" else "Price it in the instant quote →"
         batch = ""
         if x["q"]["total"] <= P["min_order"]:  # small pieces hit the minimum; show what a batch of 10 costs
@@ -361,7 +361,7 @@ def example_cards(lang):
             batch = f' <span class="meta">· {"10 قطع حوالي" if lang == "ar" else "10 for about"} {money(ten)}</span>'
         out.append(f"""<article class="card">
 <img src="{href(f'/assets/img/{slug}.webp')}" width="800" height="600" alt="{e(name)}: {e(t['render_note'])}" loading="lazy">
-<div class="body"><h3>{e(name)}</h3><p>{e(d)}</p><div class="meta">{e(meta)}</div>
+<div class="body"><h3>{e(name)}</h3><p>{e(d)}</p><div class="meta">{meta}</div>
 <div class="price">{about} {pr(slug)}{batch}</div>
 <a class="try" href="{href(lp(lang, '/quote/'))}?try={slug}">{cta}</a></div>
 <div class="label">{e(t['render_note'])}</div></article>""")

@@ -50,6 +50,7 @@ html[lang=ar] nav.main a.lang{font-family:var(--sans)}
 .btn.wa{background:#1f8a4c;color:#fff}.btn.wa:hover{background:#16703c}
 .btn.ghost{background:transparent;border-color:var(--ink);color:var(--ink)}
 .btn svg{width:20px;height:20px;flex:none}
+a:not(.btn) > svg{width:1.15em;height:1.15em;vertical-align:-.2em;margin-inline-end:6px}
 .btns{display:flex;flex-wrap:wrap;gap:12px}
 
 /* hero */
