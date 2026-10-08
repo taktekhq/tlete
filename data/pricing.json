@@ -1,0 +1,20 @@
+{
+  "_note": "One source of truth for the price formula. build.py prints it on the pages, assets/js/quote.js reads it at runtime. Nizar confirms these numbers (see monetization/workstreams/print3d.md).",
+  "currency": "USD",
+  "bed_mm": [180, 180, 180],
+  "materials": {
+    "PLA":  {"density": 1.24, "per_gram": 0.09, "grams_per_hour": 18},
+    "PETG": {"density": 1.27, "per_gram": 0.10, "grams_per_hour": 14},
+    "TPU":  {"density": 1.21, "per_gram": 0.15, "grams_per_hour": 7}
+  },
+  "per_hour": 0.75,
+  "handling": 3,
+  "min_order": 6,
+  "waste_factor": 1.08,
+  "shell_mm": 1.2,
+  "setup_hours": 0.15,
+  "infill_default": 15,
+  "infills": [10, 15, 25, 50, 100],
+  "quality": {"draft": 0.75, "standard": 1.0, "fine": 1.7},
+  "colours": ["black", "white", "grey", "red", "blue", "green", "yellow", "orange"]
+}

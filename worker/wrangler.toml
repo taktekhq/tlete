@@ -1,0 +1,12 @@
+name = "tlete-forms"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+# Create once from the Mac:  npx wrangler kv namespace create TLETE   (then paste the id below)
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_WITH_KV_ID"
+
+[observability]
+enabled = true

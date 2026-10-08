@@ -1,0 +1,15 @@
+{
+  "_note": "Site-wide settings. When tlete3d.com is bought: site_url https://tlete3d.com, base_path empty, add CNAME, add the domain to the forms Worker origins.",
+  "name": "Tlete",
+  "name_ar": "تلاتة",
+  "site_url": "https://taktek.io",
+  "base_path": "/tlete",
+  "whatsapp": "96181511232",
+  "whatsapp_display": "+961 81 511 232",
+  "ga4": "G-MY112CQXP6",
+  "form": {
+    "url": "https://taktek-audit.taktek-5f0.workers.dev/api/lead",
+    "mode": "work",
+    "emailRequired": true
+  }
+}
