@@ -66,7 +66,7 @@
   function options() {
     const unit = +opts.unit.value;
     return {
-      material: opts.material.value, colour: opts.colour.value, infill: +opts.infill.value, quality: opts.quality.value,
+      material: filament().material, filament: filament().id, infill: +opts.infill.value, quality: opts.quality.value,
       qty: Math.max(1, Math.min(500, parseInt(opts.qty.value, 10) || 1)), scale: unit * Math.max(1, Math.min(1000, +opts.scale.value || 100)) / 100,
       unitLabel: opts.unit.options[opts.unit.selectedIndex].text, scalePct: +opts.scale.value || 100,
     };
@@ -91,11 +91,11 @@
       (q.minApplied ? `<li class="min"><span>${T.min}</span><b>${money(P.min_order)}</b></li>` : "");
     $("#qper").textContent = o.qty > 1 ? `${money(q.total / o.qty)} ${T.per}` : "";
     state.current = {
-      file: fileName, material: o.material, colour: o.colour, infill: o.infill, quality: o.quality, qty: o.qty, scale_pct: o.scalePct, unit: o.unitLabel,
+      file: fileName, material: o.material, filament: optText("filament"), infill: o.infill, quality: o.quality, qty: o.qty, scale_pct: o.scalePct, unit: o.unitLabel,
       size_mm: q.size.map(v => Math.round(v * 10) / 10), grams: Math.round(q.grams), hours: Math.round(q.hours * 10) / 10, total_usd: q.total, fits: fit,
     };
     const c = state.current;
-    const msg = `${T.wa}\n${T.file}: ${c.file}\n${T.size}: ${c.size_mm.join(" × ")} mm\n${T.material}: ${c.material}, ${T.colour}: ${optText("colour")}\n${T.infill}: ${c.infill}%, ${T.quality}: ${optText("quality")}\n${T.qty}: ${c.qty}\n${T.est}: ${money(c.total_usd)}`;
+    const msg = `${T.wa}\n${T.file}: ${c.file}\n${T.size}: ${c.size_mm.join(" × ")} mm\n${T.material}: ${c.filament}\n${T.infill}: ${c.infill}%, ${T.quality}: ${optText("quality")}\n${T.qty}: ${c.qty}\n${T.est}: ${money(c.total_usd)}`;
     $("#qwa").href = "https://wa.me/" + window.TLETE_WA + "?text=" + encodeURIComponent(msg);
     // One quote_calculated per distinct quote, after the customer stops fiddling for a moment.
     clearTimeout(update.t);
@@ -107,6 +107,7 @@
     }, fresh ? 300 : 1500);
   }
   const optText = n => opts[n].options[opts[n].selectedIndex].text;
+  const filament = () => P.filaments.find(f => f.id === opts.filament.value) || P.filaments[0];
 
   $("#qsend").addEventListener("click", () => {
     const f = $("#reqform");
@@ -119,7 +120,6 @@
   const view = (function () {
     const cv = $("#qview"), ctx = cv.getContext("2d");
     let tris = null, center = [0, 0, 0], radius = 1, yaw = -0.6, pitch = 0.45, drag = null, raf = 0;
-    const colours = { black: "#2a2a2d", white: "#efece6", grey: "#9a9a9e", red: "#c8302c", blue: "#2f62d0", green: "#2f8a52", yellow: "#e8b622", orange: "#e8662a" };
     function set(t, m) {
       // Keep at most ~40k triangles for display; measurements always use the full mesh.
       const n = t.length / 9, step = Math.max(1, Math.ceil(n / 40000));
@@ -163,7 +163,7 @@
         order.push(i);
       }
       order.sort((a, b) => depth[a] - depth[b]);
-      const hex = colours[opts.colour.value] || "#e8662a";
+      const hex = filament().hex;
       const base = [1, 3, 5].map(k => parseInt(hex.slice(k, k + 2), 16));
       for (const i of order) {
         const s = shade[i];
@@ -176,7 +176,7 @@
     cv.addEventListener("pointermove", e => { if (!drag) return; yaw = drag[2] + (e.clientX - drag[0]) * 0.01; pitch = Math.max(-1.4, Math.min(1.4, drag[3] + (e.clientY - drag[1]) * 0.01)); draw(); });
     cv.addEventListener("pointerup", () => { drag = null; });
     window.addEventListener("resize", draw);
-    opts.colour.addEventListener("change", draw);
+    opts.filament.addEventListener("change", draw);
     return { set, draw };
   })();
 })();

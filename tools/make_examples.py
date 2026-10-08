@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate the example models (binary STL) and their renders (WebP + PNG).
 
-These are honest renders of simple models we designed in code, shown on the
+These are honest renders of simple models we designed in code, in the colours of the filaments Nizar has, shown on the
 site as "example render" until Nizar sends photos of real prints. Output:
 assets/models/<slug>.stl and assets/img/<slug>.webp (+ .png for og:image).
 
@@ -171,12 +171,12 @@ def cable_clip():
 
 
 EXAMPLES = {
-    "cedar-keychain": (cedar, (0.18, 0.55, 0.32)),
-    "phone-stand": (phone_stand, (0.93, 0.36, 0.16)),
-    "hex-planter": (planter, (0.95, 0.93, 0.88)),
-    "lebanon-map": (lebanon_map, (0.85, 0.16, 0.18)),
-    "appliance-knob": (knob, (0.17, 0.17, 0.19)),
-    "cable-organiser": (cable_clip, (0.20, 0.42, 0.85)),
+    "cedar-keychain": (cedar, (0.50, 0.82, 0.88)),  # PLA Glow Blue
+    "phone-stand": (phone_stand, (0.42, 0.25, 0.63)),  # PLA Basic Purple
+    "hex-planter": (planter, (0.37, 0.62, 0.84)),  # PETG Translucent Blue
+    "lebanon-map": (lebanon_map, (0.95, 0.93, 0.90)),  # PLA Tough White
+    "appliance-knob": (knob, (0.20, 0.20, 0.22)),  # PLA Basic Black
+    "cable-organiser": (cable_clip, (0.12, 0.37, 0.75)),  # PLA Basic Blue
 }
 SHOW_STANDING = {"cedar-keychain", "lebanon-map"}  # printed flat, photographed upright
 

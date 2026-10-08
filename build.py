@@ -89,12 +89,12 @@ def price(m, material="PLA", infill=None, quality="standard", qty=1):
 
 EXAMPLES = [
     # slug, material, EN name, AR name, EN line, AR line
-    ("cedar-keychain", "PLA", "Cedar keychain", "ميدالية أرزة",
-     "A Lebanese cedar for your keys or bag. Initials on the back on request.", "أرزة لبنانية لمفاتيحك أو شنطتك. منكتب الأحرف الأولى على ضهرها إذا بدّك."),
+    ("cedar-keychain", "PLA", "Glow-in-the-dark cedar keychain", "ميدالية أرزة بتضوي بالعتمة",
+     "A Lebanese cedar for your keys or bag, in PLA that glows in the dark.", "أرزة لبنانية لمفاتيحك أو شنطتك، بـPLA بيضوي بالعتمة."),
     ("phone-stand", "PLA", "Phone stand", "ستاند للتلفون",
      "Holds a phone upright or sideways on a desk, with a gap for the charger cable.", "بيحمل التلفون واقف أو بالعرض عالمكتب، وفيه فتحة لشريط الشحن."),
-    ("appliance-knob", "PETG", "Replacement knob", "مقبض بديل",
-     "Lost the knob on your oven, fan or washing machine? Send a photo with measurements and we model it.", "ضاع مقبض الفرن أو المروحة أو الغسالة؟ ابعتلنا صورة مع القياسات ومنرسمو."),
+    ("appliance-knob", "PLA", "Replacement knob", "مقبض بديل",
+     "Lost the knob on your fan, heater dial or washing machine? Send a photo with measurements and we model it.", "ضاع مقبض المروحة أو الغسالة أو الصوبيا؟ ابعتلنا صورة مع القياسات ومنرسمو."),
     ("lebanon-map", "PLA", "Lebanon map plaque", "لوحة خريطة لبنان",
      "A small map of Lebanon for a shelf, a fridge (magnet on request) or a gift.", "خريطة لبنان صغيرة للرف، للبرّاد (مع مغناطيس إذا بدّك) أو هدية."),
     ("hex-planter", "PETG", "Hex planter", "حوض زرع سداسي",
@@ -102,10 +102,14 @@ EXAMPLES = [
     ("cable-organiser", "PLA", "Cable organiser", "منظّم شرطان",
      "Keeps chargers and cables in their place on the desk.", "بيخلّي الشواحن والشرطان بمحلّن عالمكتب."),
 ]
+FIL = {f["id"]: f for f in P["filaments"]}
+EX_FIL = {"cedar-keychain": "pla-glow-blue", "phone-stand": "pla-purple", "appliance-knob": "pla-black",
+          "lebanon-map": "pla-tough-white", "hex-planter": "petg-translucent-blue", "cable-organiser": "pla-blue"}
 EX = {}
 for slug, mat, *_ in EXAMPLES:
+    assert FIL[EX_FIL[slug]]["material"] == mat, slug
     m = measure(read_stl(ROOT / "assets" / "models" / f"{slug}.stl"))
-    EX[slug] = {"m": m, "q": price(m, mat), "mat": mat}
+    EX[slug] = {"m": m, "q": price(m, mat), "mat": mat, "fil": FIL[EX_FIL[slug]]}
 
 
 # ---------- shared bits ----------
@@ -118,7 +122,7 @@ L = {
         "dir": "ltr", "other": "ar", "other_label": "عربي", "skip": "Skip to content", "menu": "Menu",
         "nav": [("/", "Home"), ("/quote/", "Instant quote"), ("/request/", "Custom request"), ("/delivery/", "Delivery & payment"), ("/faq/", "FAQ")],
         "wa_label": "WhatsApp us", "tagline": "3D printing in Lebanon",
-        "footer_about": "Tlete (تلاتة, \"three\" in Lebanese Arabic) is a small 3D-printing studio in Lebanon with one Bambu Lab A1 Mini printer. We print your files and your ideas in PLA, PETG and TPU, and hand them over or send them anywhere in Lebanon.",
+        "footer_about": "Tlete (تلاتة, \"three\" in Lebanese Arabic) is a small 3D-printing studio in Lebanon with one Bambu Lab A1 Mini printer. We print your files and your ideas in PLA, PETG and TPU, one colour per print, and ship them anywhere in Lebanon for $5.",
         "footer_pages": "Pages", "footer_contact": "Contact", "privacy": "Privacy",
         "render_note": "Example render, not a photo of a customer order",
     },
@@ -126,7 +130,7 @@ L = {
         "dir": "rtl", "other": "en", "other_label": "English", "skip": "انتقل إلى المحتوى", "menu": "القائمة",
         "nav": [("/", "الرئيسية"), ("/quote/", "تسعير فوري"), ("/request/", "طلب خاص"), ("/delivery/", "التوصيل والدفع"), ("/faq/", "أسئلة شائعة")],
         "wa_label": "راسلنا على واتساب", "tagline": "طباعة ثلاثية الأبعاد بلبنان",
-        "footer_about": "تلاتة (Tlete) استوديو صغير للطباعة الثلاثية الأبعاد بلبنان، عندو طابعة وحدة Bambu Lab A1 Mini. منطبع ملفاتك وأفكارك بالـPLA والـPETG والـTPU، ومنسلّمك ياهن باليد أو منبعتن لأي منطقة بلبنان.",
+        "footer_about": "تلاتة (Tlete) استوديو صغير للطباعة الثلاثية الأبعاد بلبنان، عندو طابعة وحدة Bambu Lab A1 Mini. منطبع ملفاتك وأفكارك بالـPLA والـPETG والـTPU، بلون واحد لكل قطعة، ومنبعتن لأي منطقة بلبنان بـ5 دولار.",
         "footer_pages": "الصفحات", "footer_contact": "تواصل", "privacy": "الخصوصية",
         "render_note": "صورة تصميم ثلاثي الأبعاد للتوضيح، مش صورة طلب زبون",
     },
@@ -297,14 +301,14 @@ FAQ = {
          "One piece can be up to 180 × 180 × 180 mm, the build volume of our Bambu Lab A1 Mini. Bigger objects can be printed in parts and glued, which we quote case by case."),
         ("Which materials do you print with?",
          "PLA for decor, gifts, models and most everyday objects; PETG for parts that need to be tougher or handle water, sun and some heat; TPU for flexible things like bumpers and grips. We don't print ABS, ASA, nylon, resin or metal."),
-        ("Can you print in several colours?",
-         "Single-colour prints are the default, in the colours we have in stock. Ask on WhatsApp if you need more than one colour in a single print; we confirm what's possible for your model."),
+        ("Which colours can I choose?",
+         "One colour per print, from the filaments we have: " + ", ".join(f["en"] for f in P["filaments"]) + ". We can't mix colours inside one print, but a model made of separate parts can have each part in a different colour."),
         ("How long does an order take?",
-         "The instant quote shows the print time of your model. We confirm the ready date on WhatsApp before we start, based on the queue that day. Courier delivery inside Lebanon usually takes 1–3 days after that."),
+         "The instant quote shows the print time of your model. We confirm the ready date and delivery on WhatsApp before we start, based on the queue that day."),
         ("How do I pay?",
-         "Cash on delivery or at hand-over, or Whish Money. Prices are in US dollars. For large orders we may ask for part of the price upfront by Whish; we tell you before printing."),
+         "Cash on delivery, or Whish Money. Prices are in US dollars. For large orders we may ask for part of the price upfront by Whish; we tell you before printing."),
         ("Do you deliver outside Beirut?",
-         "Yes, anywhere in Lebanon by courier, cash on delivery. The courier fee (usually about $4–5) is added to your order. You can also pick up or arrange a hand-over."),
+         f"Yes, we ship anywhere in Lebanon for a flat {money(P['shipping_lebanon'])}, billed separately from the print, and you can pay cash on delivery."),
         ("Do you ship abroad?",
          "We can quote courier shipping abroad, but for a single small print the shipping often costs more than the print itself. It makes sense for bigger orders; message us with your country and we quote it."),
         ("Can you copy or fix a broken part?",
@@ -323,14 +327,14 @@ FAQ = {
          "القطعة الوحدة لحد 180 × 180 × 180 ملم، وهيدا حجم الطباعة بطابعتنا Bambu Lab A1 Mini. الأغراض الأكبر منطبعها قطع ومنلزّقها، ومنسعّرها حسب كل حالة."),
         ("شو المواد اللي بتطبعوا فيها؟",
          "PLA للديكور والهدايا والمجسّمات ومعظم الأغراض اليومية؛ PETG للقطع اللي بدها تكون أقوى أو تتحمّل المي والشمس وشوية حرارة؛ TPU للأغراض المرنة متل الحمايات والمساكات. ما منطبع ABS أو ASA أو نايلون أو ريزن أو معدن."),
-        ("فيكن تطبعوا بأكتر من لون؟",
-         "الطباعة بلون واحد هي الأساس، بالألوان اللي عنا بالمخزون. إذا بدك أكتر من لون بنفس القطعة اسألنا على واتساب ومنقلّك شو بيزبط لموديلك."),
+        ("شو الألوان اللي فيني نقّي منها؟",
+         "لون واحد لكل قطعة، من الخيوط اللي عنا: " + "، ".join(f["ar"] for f in P["filaments"]) + ". ما فينا نخلط ألوان بنفس الطباعة، بس الموديل اللي مألّف من كذا قطعة فينا نطبع كل قطعة بلون."),
         ("قدّيش بياخد الطلب وقت؟",
-         "التسعير الفوري بيورجيك وقت طباعة القطعة. منأكّدلك تاريخ التسليم على واتساب قبل ما نبلّش، حسب الطلبات اللي قبلك. التوصيل بالبريد السريع جوّا لبنان بياخد عادةً من يوم لـ3 أيام بعدها."),
+         "التسعير الفوري بيورجيك وقت طباعة القطعة. منأكّدلك تاريخ التسليم والتوصيل على واتساب قبل ما نبلّش، حسب الطلبات اللي قبلك."),
         ("كيف بدفع؟",
-         "كاش عند التسليم أو عبر Whish Money. الأسعار بالدولار الأميركي. للطلبات الكبيرة فينا نطلب جزء من السعر سلف عبر Whish، ومنقلّك قبل الطباعة."),
+         "كاش عند الاستلام أو عبر Whish Money. الأسعار بالدولار الأميركي. للطلبات الكبيرة فينا نطلب جزء من السعر سلف عبر Whish، ومنقلّك قبل الطباعة."),
         ("بتوصّلوا لبرّا بيروت؟",
-         "إيه، لكل لبنان بالبريد السريع، والدفع عند الاستلام. أجرة التوصيل (عادةً حوالي 4–5 دولار) بتنزاد عالطلب. وفيك كمان تستلم بنفسك أو نتّفق على تسليم باليد."),
+         f"إيه، منبعت لكل لبنان بـ{money(P['shipping_lebanon'])} مقطوعة، بتنحسب لحالها غير سعر الطباعة، وفيك تدفع كاش عند الاستلام."),
         ("بتبعتوا لبرّا لبنان؟",
          "فينا نسعّرلك الشحن لبرّا، بس لقطعة صغيرة وحدة الشحن غالبًا بيكلّف أكتر من الطباعة نفسها. بيكون منطقي للطلبات الأكبر؛ ابعتلنا بلدك ومنسعّرلك."),
         ("فيكن تنسخوا أو تصلّحوا قطعة مكسورة؟",
@@ -360,7 +364,8 @@ def example_cards(lang):
         sz = " × ".join(f"{v:.0f}" for v in x["m"]["size_mm"])
         name, d = (ar, ar_d) if lang == "ar" else (en, en_d)
         about = "حوالي" if lang == "ar" else "about"
-        meta = f"{mat} · <bdi dir=\"ltr\">{sz} mm</bdi> · <bdi dir=\"ltr\">{x['q']['grams']:.0f} g</bdi>"
+        fil = x["fil"]["ar"] if lang == "ar" else x["fil"]["en"]
+        meta = f"{e(fil)} · <bdi dir=\"ltr\">{sz} mm</bdi> · <bdi dir=\"ltr\">{x['q']['grams']:.0f} g</bdi>"
         cta = "جرّب سعرو بالتسعير الفوري ←" if lang == "ar" else "Price it in the instant quote →"
         batch = ""
         if x["q"]["total"] <= P["min_order"]:  # small pieces hit the minimum; show what a batch of 10 costs
@@ -375,20 +380,25 @@ def example_cards(lang):
     return '<div class="grid">' + "".join(out) + "</div>"
 
 
+def stock(lang, mat):
+    sep = "، " if lang == "ar" else ", "
+    return e(sep.join(f[lang].replace(mat + " ", "", 1) for f in P["filaments"] if f["material"] == mat))
+
+
 def formula_block(lang):
     m = P["materials"]
     if lang == "ar":
         return f"""<div class="formula">price = grams × rate + print hours × {money(P['per_hour'])} + {money(P['handling'])} (min {money(P['min_order'])})</div>
-<div class="tablewrap" style="margin-top:14px"><table><tr><th>المادة</th><th>للغرام</th><th>بتنفع لـ</th></tr>
-<tr><td>PLA</td><td>{money(m['PLA']['per_gram'])}</td><td>هدايا، ديكور، مجسّمات، أغراض يومية</td></tr>
-<tr><td>PETG</td><td>{money(m['PETG']['per_gram'])}</td><td>قطع أقوى، مي، شمس، حرارة خفيفة</td></tr>
-<tr><td>TPU</td><td>{money(m['TPU']['per_gram'])}</td><td>أغراض مرنة: حمايات، مساكات</td></tr></table></div>
+<div class="tablewrap" style="margin-top:14px"><table><tr><th>المادة</th><th>للغرام</th><th>بتنفع لـ</th><th>الألوان عنا</th></tr>
+<tr><td>PLA</td><td>{money(m['PLA']['per_gram'])}</td><td>هدايا، ديكور، مجسّمات، أغراض يومية</td><td>{stock('ar', 'PLA')}</td></tr>
+<tr><td>PETG</td><td>{money(m['PETG']['per_gram'])}</td><td>قطع أقوى، مي، شمس، حرارة خفيفة</td><td>{stock('ar', 'PETG')}</td></tr>
+<tr><td>TPU</td><td>{money(m['TPU']['per_gram'])}</td><td>أغراض مرنة: حمايات، مساكات</td><td>{stock('ar', 'TPU')}</td></tr></table></div>
 <p class="note">الغرامات = حجم القطعة (الجدران الخارجية + نسبة الحشوة من الداخل) × كثافة المادة، مع {round((P['waste_factor'] - 1) * 100)}% للدعامات والهدر. الأرقام تقديرية، ومنأكّد السعر النهائي على واتساب قبل الطباعة.</p>"""
     return f"""<div class="formula">price = grams × rate + print hours × {money(P['per_hour'])} + {money(P['handling'])} (min {money(P['min_order'])})</div>
-<div class="tablewrap" style="margin-top:14px"><table><tr><th>Material</th><th>Per gram</th><th>Good for</th></tr>
-<tr><td>PLA</td><td>{money(m['PLA']['per_gram'])}</td><td>Gifts, decor, models, everyday objects</td></tr>
-<tr><td>PETG</td><td>{money(m['PETG']['per_gram'])}</td><td>Tougher parts, water, sun, mild heat</td></tr>
-<tr><td>TPU</td><td>{money(m['TPU']['per_gram'])}</td><td>Flexible things: bumpers, grips</td></tr></table></div>
+<div class="tablewrap" style="margin-top:14px"><table><tr><th>Material</th><th>Per gram</th><th>Good for</th><th>In stock</th></tr>
+<tr><td>PLA</td><td>{money(m['PLA']['per_gram'])}</td><td>Gifts, decor, models, everyday objects</td><td>{stock('en', 'PLA')}</td></tr>
+<tr><td>PETG</td><td>{money(m['PETG']['per_gram'])}</td><td>Tougher parts, water, sun, mild heat</td><td>{stock('en', 'PETG')}</td></tr>
+<tr><td>TPU</td><td>{money(m['TPU']['per_gram'])}</td><td>Flexible things: bumpers, grips</td><td>{stock('en', 'TPU')}</td></tr></table></div>
 <p class="note">Grams = the model's volume (outer walls plus your infill share of the inside) × the material's density, plus {round((P['waste_factor'] - 1) * 100)}% for supports and waste. It's an estimate: we confirm the final price on WhatsApp before printing.</p>"""
 
 
@@ -414,7 +424,7 @@ def home(lang):
 <ol class="steps">
 <li><h3>ابعت ملف أو فكرة</h3><p>حمّل ملفك بالتسعير الفوري، أو اوصفلنا شو بدّك بطلب خاص (صورة، رسمة، قياسات).</p></li>
 <li><h3>منأكّد على واتساب</h3><p>منراجع الملف ومنأكّدلك السعر النهائي واللون وتاريخ التسليم. ما منطبع قبل موافقتك.</p></li>
-<li><h3>منطبع ومنسلّم</h3><p>استلام باليد أو توصيل لكل لبنان، والدفع كاش عند الاستلام أو عبر Whish.</p></li>
+<li><h3>منطبع ومنبعت</h3><p>توصيل لكل لبنان بـ{money(P['shipping_lebanon'])}، والدفع كاش عند الاستلام أو عبر Whish.</p></li>
 </ol></div></section>
 
 <section class="alt"><div class="wrap prose">
@@ -429,6 +439,7 @@ def home(lang):
 <li>قطعة وحدة أكبر من 180 ملم بأي اتجاه (منقسمها قطع إذا بيزبط).</li>
 <li>ABS أو ASA أو نايلون أو ريزن أو معدن: طابعتنا مش مسكّرة وهي FDM. التفاصيل الصغيرة كتير (متل مجسّمات 2 سم) بيبيّن فيها خطوط الطبقات.</li>
 <li>قطع بتسخن فوق حوالي 70 درجة أو بتحمل أوزان كبيرة.</li>
+<li>كذا لون بنفس الطباعة: منطبع لون واحد لكل قطعة (الموديل المألّف من قطع فيه يخلط ألوان).</li>
 </ul>
 <h2>أسئلة سريعة</h2>
 {faq_html(lang, FAQ[lang][:4])}
@@ -458,7 +469,7 @@ def home(lang):
 <ol class="steps">
 <li><h3>Send a file or an idea</h3><p>Upload your model to the instant quote, or describe what you need in a custom request (photo, sketch, measurements).</p></li>
 <li><h3>We confirm on WhatsApp</h3><p>We check the file and confirm the final price, colour and ready date. Nothing prints until you say yes.</p></li>
-<li><h3>We print and hand it over</h3><p>Pick up, hand-over, or courier anywhere in Lebanon. Pay cash on delivery or with Whish.</p></li>
+<li><h3>We print and ship it</h3><p>Delivery anywhere in Lebanon for {money(P['shipping_lebanon'])}. Pay cash on delivery or with Whish.</p></li>
 </ol></div></section>
 
 <section class="alt"><div class="wrap prose">
@@ -473,6 +484,7 @@ def home(lang):
 <li>Single pieces bigger than 180 mm in any direction (we can split them into parts when that works).</li>
 <li>ABS, ASA, nylon, resin or metal: our printer is an open FDM machine. Very fine detail (2 cm figurines) shows layer lines.</li>
 <li>Parts that get hotter than about 70 °C or carry heavy loads.</li>
+<li>Several colours inside one print: we print one colour per piece (a model in separate parts can mix colours).</li>
 </ul>
 <h2>Quick answers</h2>
 {faq_html(lang, FAQ[lang][:4])}
@@ -497,9 +509,9 @@ def request_form(lang, with_file):
 <label>{f("WhatsApp number", "رقم الواتساب")}<input name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="+961 …" dir="ltr"></label>
 <label>{f("Email" + (" (we send the quote here too)" if email_req else " (optional)"), "البريد الإلكتروني" + (" (منبعتلك السعر عليه كمان)" if email_req else " (اختياري)"))}<input name="email" type="email" autocomplete="email" {email_req} dir="ltr"></label>
 <label>{f("City or area", "المدينة أو المنطقة")}<input name="city" autocomplete="address-level2" maxlength="80"></label>
-<label>{f("Delivery", "التسليم")}<select name="delivery"><option value="courier">{f("Courier, cash on delivery", "توصيل، دفع عند الاستلام")}</option><option value="pickup">{f("Pick-up / hand-over", "استلام باليد")}</option><option value="abroad">{f("Outside Lebanon (quote shipping)", "برّا لبنان (سعّرولي الشحن)")}</option></select></label>
+<label>{f("Delivery", "التوصيل")}<select name="delivery"><option value="lebanon">{f(f"Anywhere in Lebanon ({money(P['shipping_lebanon'])}, cash on delivery)", f"لأي منطقة بلبنان ({money(P['shipping_lebanon'])}، دفع عند الاستلام)")}</option><option value="abroad">{f("Outside Lebanon (quote shipping)", "برّا لبنان (سعّرولي الشحن)")}</option></select></label>
 {file_field}
-<label>{f("What do you need?" if with_file else "Anything we should know? (colour, deadline, use)", "شو بدّك بالضبط؟" if with_file else "في شي لازم نعرفو؟ (اللون، الموعد، الاستعمال)")}<textarea name="notes" maxlength="1800" {'required' if with_file else ''} placeholder="{f('e.g. a replacement knob for a Beko oven, 35 mm wide, black', 'مثلًا: مقبض بديل لفرن Beko، عرضو 35 ملم، أسود') if with_file else ''}"></textarea></label>
+<label>{f("What do you need?" if with_file else "Anything we should know? (deadline, use)", "شو بدّك بالضبط؟" if with_file else "في شي لازم نعرفو؟ (الموعد، الاستعمال)")}<textarea name="notes" maxlength="1800" {'required' if with_file else ''} placeholder="{f('e.g. a replacement knob for a Beko oven, 35 mm wide, black', 'مثلًا: مقبض بديل لفرن Beko، عرضو 35 ملم، أسود') if with_file else ''}"></textarea></label>
 <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
 <button class="btn primary" type="submit">{f("Send request", "ابعت الطلب")}</button>
 <div class="form-status" role="status" aria-live="polite"></div>
@@ -517,13 +529,11 @@ def quote(lang):
     ar = lang == "ar"
     f = lambda en, a: a if ar else en  # noqa: E731
     ex_btns = "".join(f'<button type="button" data-example="{s}">{e(a if ar else n)}</button>' for s, _, n, a, *_ in EXAMPLES)
-    mats = "".join(f'<option value="{k}">{k}</option>' for k in P["materials"])
-    cn = {"black": ("Black", "أسود"), "white": ("White", "أبيض"), "grey": ("Grey", "رمادي"), "red": ("Red", "أحمر"), "blue": ("Blue", "أزرق"), "green": ("Green", "أخضر"), "yellow": ("Yellow", "أصفر"), "orange": ("Orange", "برتقالي")}
-    cols = "".join(f'<option value="{c}">{cn[c][1] if ar else cn[c][0]}</option>' for c in P["colours"])
+    fils = "".join(f'<option value="{x["id"]}">{e(x["ar"] if ar else x["en"])}</option>' for x in P["filaments"])
     infills = "".join(f'<option value="{i}"{" selected" if i == P["infill_default"] else ""}>{i}%{f(" (default)", " (عادي)") if i == P["infill_default"] else ""}</option>' for i in P["infills"])
     body = f"""<div class="wrap pagehead">
 <h1>{f("Instant 3D printing quote", "تسعير فوري للطباعة الثلاثية الأبعاد")}</h1>
-<p class="lead">{f("Drop your model, pick a material and see the estimated price, size and print time. The file stays on your device until you send a request.", "حطّ ملفك، نقّي المادة، وبتشوف السعر التقديري والحجم ووقت الطباعة. الملف بيضل على جهازك لحد ما تبعت الطلب.")}</p>
+<p class="lead">{f("Drop your model, pick a filament and see the estimated price, size and print time. The file stays on your device until you send a request.", "حطّ ملفك، نقّي الخيط، وبتشوف السعر التقديري والحجم ووقت الطباعة. الملف بيضل على جهازك لحد ما تبعت الطلب.")}</p>
 </div>
 <section style="padding-top:8px"><div class="wrap">
 <div class="drop" id="drop">
@@ -546,8 +556,7 @@ def quote(lang):
 <div class="panel">
 <form id="qopts" onsubmit="return false">
 <div class="fields">
-<label>{f("Material", "المادة")}<select name="material">{mats}</select></label>
-<label>{f("Colour", "اللون")}<select name="colour">{cols}</select></label>
+<label style="grid-column:1/-1">{f("Filament (one colour per print)", "الخيط (لون واحد لكل قطعة)")}<select name="filament">{fils}</select></label>
 <label>{f("Infill", "الحشوة")}<select name="infill">{infills}</select></label>
 <label>{f("Quality", "الجودة")}<select name="quality"><option value="draft">{f("Draft (0.28 mm)", "سريع (0.28 ملم)")}</option><option value="standard" selected>{f("Standard (0.20 mm)", "عادي (0.20 ملم)")}</option><option value="fine">{f("Fine (0.12 mm)", "ناعم (0.12 ملم)")}</option></select></label>
 <label>{f("Quantity", "العدد")}<input name="qty" type="number" min="1" max="500" value="1" inputmode="numeric"></label>
@@ -557,6 +566,7 @@ def quote(lang):
 </form>
 <div class="total" id="qtotal"></div><div id="qper"></div>
 <ul id="qbreak"></ul>
+<p class="note" style="margin:0">{f(f"+ {money(P['shipping_lebanon'])} delivery anywhere in Lebanon, billed separately.", f"+ {money(P['shipping_lebanon'])} توصيل لأي منطقة بلبنان، بتنحسب لحالها.")}</p>
 <p class="confirm">{f("Estimate only. We check your file and confirm the final price on WhatsApp before printing.", "سعر تقديري. منشيّك عالملف ومنأكّد السعر النهائي على واتساب قبل الطباعة.")}</p>
 <div class="btns"><a id="qwa" class="btn wa" data-where="quote" href="https://wa.me/{WA}" target="_blank" rel="noopener">{WA_ICON}{f("Order on WhatsApp", "اطلب على واتساب")}</a>
 <button id="qsend" class="btn ghost" type="button">{f("Send with my file", "ابعت مع الملف")}</button></div>
@@ -614,29 +624,29 @@ def delivery(lang):
     ar = lang == "ar"
     f = lambda en, a: a if ar else en  # noqa: E731
     body = f"""<div class="wrap pagehead"><h1>{f("Delivery & payment", "التوصيل والدفع")}</h1>
-<div class="answer"><p>{f("We deliver anywhere in Lebanon by courier (cash on delivery, the fee of about $4–5 is added to your order), or you pick up or meet us for a hand-over. Pay in US dollars, cash or Whish Money. Abroad: shipping quoted per order.", "منوصّل لكل لبنان بالبريد السريع (الدفع عند الاستلام، وأجرة التوصيل حوالي 4–5 دولار بتنزاد عالطلب)، أو بتستلم بنفسك أو منتلاقى ونسلّمك. الدفع بالدولار، كاش أو Whish Money. لبرّا لبنان: منسعّر الشحن حسب الطلب.")}</p></div></div>
+<div class="answer"><p>{f(f"We ship anywhere in Lebanon for a flat {money(P['shipping_lebanon'])}, billed separately from the print. Pay in US dollars, cash on delivery or Whish Money. Abroad: shipping quoted per order.", f"منبعت لكل لبنان بـ{money(P['shipping_lebanon'])} مقطوعة، بتنحسب لحالها غير سعر الطباعة. الدفع بالدولار، كاش عند الاستلام أو Whish Money. لبرّا لبنان: منسعّر الشحن حسب الطلب.")}</p></div></div>
 <section><div class="wrap prose">
 <h2>{f("Inside Lebanon", "جوّا لبنان")}</h2>
 <div class="tablewrap"><table>
 <tr><th>{f("Option", "الطريقة")}</th><th>{f("Cost", "الكلفة")}</th><th>{f("How it works", "كيف بتمشي")}</th></tr>
-<tr><td>{f("Courier", "بريد سريع")}</td><td>{f("about $4–5, added to the order", "حوالي 4–5 دولار، بتنزاد عالطلب")}</td><td>{f("Anywhere in Lebanon, usually 1–3 days after printing. You pay the courier cash.", "لكل لبنان، عادةً يوم لـ3 أيام بعد الطباعة. بتدفع للموزّع كاش.")}</td></tr>
-<tr><td>{f("Pick-up / hand-over", "استلام باليد")}</td><td>{f("free", "مجاني")}</td><td>{f("We agree a time and place on WhatsApp.", "منتّفق عالوقت والمحل على واتساب.")}</td></tr>
+<tr><td>{f("Delivery in Lebanon", "توصيل بلبنان")}</td><td>{money(P['shipping_lebanon'])}</td><td>{f("Anywhere in Lebanon, billed separately from the print. You can pay cash on delivery.", "لأي منطقة بلبنان، بتنحسب لحالها غير الطباعة. فيك تدفع كاش عند الاستلام.")}</td></tr>
+<tr><td>{f("Outside Lebanon", "برّا لبنان")}</td><td>{f("quoted", "حسب الطلب")}</td><td>{f("We quote courier shipping for your country.", "منسعّرلك الشحن لبلدك.")}</td></tr>
 </table></div>
 <h2>{f("Payment", "الدفع")}</h2>
 <ul>
-<li>{f("Cash on delivery or at hand-over (US dollars).", "كاش عند الاستلام أو التسليم (بالدولار).")}</li>
+<li>{f("Cash on delivery (US dollars).", "كاش عند الاستلام (بالدولار).")}</li>
 <li>{f("Whish Money: we send you the details or a payment link on WhatsApp.", "Whish Money: منبعتلك التفاصيل أو رابط دفع على واتساب.")}</li>
 <li>{f("Larger orders: we may ask for part of the price upfront by Whish, and tell you before we print.", "للطلبات الكبيرة: فينا نطلب جزء من السعر سلف عبر Whish، ومنقلّك قبل ما نطبع.")}</li>
 </ul>
 <h2>{f("Outside Lebanon", "برّا لبنان")}</h2>
 <p>{f("We can quote courier shipping (Aramex or DHL). Be aware that a small parcel abroad usually costs $25–45 plus your country's import fees, often more than the print itself, so it makes sense for bigger orders. Tell us your country in a request and we quote it. Digital design files you print yourself are coming later.", "فينا نسعّرلك الشحن (Aramex أو DHL). انتبه إنو طرد صغير لبرّا بيكلّف عادةً 25–45 دولار زائد رسوم الجمرك ببلدك، وغالبًا أكتر من الطباعة نفسها، فبيكون منطقي للطلبات الأكبر. قلّنا بلدك بطلب ومنسعّرلك. ملفات تصاميم رقمية تطبعها بنفسك جايي بعدين.")}</p>
 <h2>{f("Before we print", "قبل الطباعة")}</h2>
-<p>{f("Every order is confirmed on WhatsApp first: final price, colour, delivery and ready date. If a print fails on our side, we reprint it at our cost.", "كل طلب منأكّدو على واتساب بالأول: السعر النهائي، اللون، التوصيل وتاريخ التسليم. إذا فشلت الطباعة من عنّا، منعيدها على حسابنا.")}</p>
+<p>{f("Every order is confirmed on WhatsApp first: final price, colour, delivery and ready date.", "كل طلب منأكّدو على واتساب بالأول: السعر النهائي، اللون، التوصيل وتاريخ التسليم.")}</p>
 <div class="btns"><a class="btn primary" href="{href(lp(lang, '/quote/'))}">{f("Get an instant quote", "احسب السعر")}</a>{wa_btn(lang, where='delivery')}</div>
 </div></section>"""
-    page(lang, "/delivery/", f("Delivery & payment: courier across Lebanon, cash or Whish | Tlete", "التوصيل والدفع: لكل لبنان، كاش أو Whish | تلاتة"),
-         f("How Tlete delivers 3D prints: courier anywhere in Lebanon with cash on delivery, free hand-over, Whish Money, and shipping abroad quoted per order.",
-           "كيف بتوصّل تلاتة الطباعة: لكل لبنان والدفع عند الاستلام، تسليم باليد مجاني، Whish Money، والشحن لبرّا حسب الطلب."),
+    page(lang, "/delivery/", f(f"Delivery & payment: {money(P['shipping_lebanon'])} anywhere in Lebanon, cash or Whish | Tlete", f"التوصيل والدفع: {money(P['shipping_lebanon'])} لكل لبنان، كاش أو Whish | تلاتة"),
+         f(f"How Tlete delivers 3D prints: {money(P['shipping_lebanon'])} flat anywhere in Lebanon, cash on delivery or Whish Money, and shipping abroad quoted per order.",
+           f"كيف بتوصّل تلاتة الطباعة: {money(P['shipping_lebanon'])} لأي منطقة بلبنان، الدفع كاش عند الاستلام أو Whish Money، والشحن لبرّا حسب الطلب."),
          body, ld=[business_ld(lang)], crumbs=f("Delivery & payment", "التوصيل والدفع"))
 
 
@@ -687,7 +697,8 @@ def extras():
 > 3D printing on demand in Lebanon, with an instant online quote. One Bambu Lab A1 Mini printer; PLA, PETG and TPU; max 180 × 180 × 180 mm per piece. English and Arabic.
 
 - Price formula: grams × rate (PLA {money(m['PLA']['per_gram'])}/g, PETG {money(m['PETG']['per_gram'])}/g, TPU {money(m['TPU']['per_gram'])}/g) + print hours × {money(P['per_hour'])} + {money(P['handling'])} handling per order; minimum order {money(P['min_order'])}. Final price confirmed on WhatsApp.
-- Delivery: courier anywhere in Lebanon (cash on delivery, about $4–5), free hand-over or pick-up. Payment: cash or Whish Money. Abroad: shipping quoted per order.
+- Delivery: {money(P['shipping_lebanon'])} flat anywhere in Lebanon (billed separately, cash on delivery). Payment: cash or Whish Money. Abroad: shipping quoted per order.
+- Filaments (one colour per print, no multicolour): {", ".join(f["en"] for f in P["filaments"])}.
 - Orders: WhatsApp +{WA}
 
 ## Pages

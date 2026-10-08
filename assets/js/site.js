@@ -43,7 +43,7 @@
     const ref = "T" + Date.now().toString(36).toUpperCase().slice(-6);
     const summary = [
       "Ref " + ref, "Lang " + (AR ? "ar" : "en"),
-      quote ? `Quote: ${quote.file} | ${quote.size_mm.join("x")} mm | ${quote.material} ${quote.colour} | infill ${quote.infill}% | ${quote.quality} | qty ${quote.qty} | ~${quote.grams} g, ~${quote.hours} h | est $${quote.total_usd}${quote.fits ? "" : " | DOES NOT FIT 180mm"}` : "",
+      quote ? `Quote: ${quote.file} | ${quote.size_mm.join("x")} mm | ${quote.filament} | infill ${quote.infill}% | ${quote.quality} | qty ${quote.qty} | ~${quote.grams} g, ~${quote.hours} h | est $${quote.total_usd}${quote.fits ? "" : " | DOES NOT FIT 180mm"}` : "",
       file ? `File: ${file.name} (${Math.round(file.size / 1024)} KB)` : "File: none",
       d.city ? "City: " + d.city : "", d.delivery ? "Delivery: " + d.delivery : "",
       "Notes: " + (d.notes || ""),

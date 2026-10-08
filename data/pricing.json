@@ -1,11 +1,27 @@
 {
   "_note": "One source of truth for the price formula. build.py prints it on the pages, assets/js/quote.js reads it at runtime.",
   "currency": "USD",
-  "bed_mm": [180, 180, 180],
+  "bed_mm": [
+    180,
+    180,
+    180
+  ],
   "materials": {
-    "PLA":  {"density": 1.24, "per_gram": 0.09, "grams_per_hour": 18},
-    "PETG": {"density": 1.27, "per_gram": 0.10, "grams_per_hour": 14},
-    "TPU":  {"density": 1.21, "per_gram": 0.15, "grams_per_hour": 7}
+    "PLA": {
+      "density": 1.24,
+      "per_gram": 0.09,
+      "grams_per_hour": 18
+    },
+    "PETG": {
+      "density": 1.27,
+      "per_gram": 0.1,
+      "grams_per_hour": 14
+    },
+    "TPU": {
+      "density": 1.21,
+      "per_gram": 0.15,
+      "grams_per_hour": 7
+    }
   },
   "per_hour": 0.75,
   "handling": 3,
@@ -14,7 +30,69 @@
   "shell_mm": 1.2,
   "setup_hours": 0.15,
   "infill_default": 15,
-  "infills": [10, 15, 25, 50, 100],
-  "quality": {"draft": 0.75, "standard": 1.0, "fine": 1.7},
-  "colours": ["black", "white", "grey", "red", "blue", "green", "yellow", "orange"]
+  "infills": [
+    10,
+    15,
+    25,
+    50,
+    100
+  ],
+  "quality": {
+    "draft": 0.75,
+    "standard": 1.0,
+    "fine": 1.7
+  },
+  "single_colour_only": true,
+  "filaments": [
+    {
+      "id": "pla-glow-blue",
+      "material": "PLA",
+      "en": "PLA Glow Blue (glows in the dark)",
+      "ar": "PLA أزرق بيضوي بالعتمة",
+      "hex": "#7fd0e0"
+    },
+    {
+      "id": "pla-tough-white",
+      "material": "PLA",
+      "en": "PLA Tough White",
+      "ar": "PLA Tough أبيض",
+      "hex": "#f1eee7"
+    },
+    {
+      "id": "pla-black",
+      "material": "PLA",
+      "en": "PLA Basic Black",
+      "ar": "PLA أسود",
+      "hex": "#2a2a2d"
+    },
+    {
+      "id": "pla-purple",
+      "material": "PLA",
+      "en": "PLA Basic Purple",
+      "ar": "PLA بنفسجي",
+      "hex": "#6b3fa0"
+    },
+    {
+      "id": "pla-blue",
+      "material": "PLA",
+      "en": "PLA Basic Blue",
+      "ar": "PLA أزرق",
+      "hex": "#1f5fbf"
+    },
+    {
+      "id": "petg-translucent-blue",
+      "material": "PETG",
+      "en": "PETG Translucent Blue",
+      "ar": "PETG أزرق شفّاف",
+      "hex": "#5f9fd6"
+    },
+    {
+      "id": "tpu-red",
+      "material": "TPU",
+      "en": "TPU 95A Red (flexible)",
+      "ar": "TPU 95A أحمر (مرن)",
+      "hex": "#c62828"
+    }
+  ],
+  "shipping_lebanon": 5
 }
