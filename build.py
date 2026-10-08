@@ -197,7 +197,7 @@ def page(lang, path, title, desc, body, ld=(), scripts=(), crumbs=None, og_image
 {'<link rel="preload" href="' + href('/assets/fonts/noto-kufi-arabic-arabic.woff2') + '" as="font" type="font/woff2" crossorigin>' if lang == 'ar' else ''}
 <script async src="https://www.googletagmanager.com/gtag/js?id={S['ga4']}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','{S['ga4']}',{{site:'tlete'}});
-window.TLETE_BASE={json.dumps(BASE)};window.TLETE_WA={json.dumps(WA)};window.TLETE_FORM={form_cfg};window.TLETE_PRICING={json.dumps(P)};</script>
+window.TLETE_BASE={json.dumps(BASE)};window.TLETE_WA={json.dumps(WA)};window.TLETE_FORM={form_cfg};window.TLETE_PRICING={json.dumps({k: v for k, v in P.items() if not k.startswith('_')})};</script>
 {ld_html}
 </head>
 <body>

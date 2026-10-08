@@ -7,7 +7,7 @@
     loading: "نقرأ الملف…", bad: "ما قدرنا نقرأ هالملف. جرّب STL أو OBJ أو 3MF.", big: "الملف أكبر من 60 ميغابايت. ابعتلنا ياه على واتساب.",
     fits: "بيركب على الطابعة (180 × 180 × 180 ملم)", nofit: "أكبر من 180 ملم: منقسمو قطع ومنلزّقها، أو صغّرو بالحجم",
     tiny: "القطعة صغيرة كتير. يمكن الملف بالإنش أو بالسنتيم؟ غيّر الوحدة.", min: "الحد الأدنى للطلب", per: "للقطعة",
-    material: "المادة", time: "وقت الطباعة", handling: "تحضير وتسليم", grams: "غ", hours: "س", total: "السعر التقديري",
+    material: "المادة", time: "وقت الطباعة", handling: "تحضير وتسليم", grams: "g", hours: "h", total: "السعر التقديري",
     wa: "مرحبا Tlete، بدي اطبع هالقطعة:", file: "الملف", size: "الحجم", qty: "العدد", infill: "الحشوة", quality: "الجودة", colour: "اللون", est: "السعر التقديري",
   } : {
     loading: "Reading the file…", bad: "We couldn't read that file. Try STL, OBJ or 3MF.", big: "That file is over 60 MB. Send it to us on WhatsApp instead.",

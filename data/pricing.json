@@ -1,5 +1,5 @@
 {
-  "_note": "One source of truth for the price formula. build.py prints it on the pages, assets/js/quote.js reads it at runtime. Nizar confirms these numbers (see monetization/workstreams/print3d.md).",
+  "_note": "One source of truth for the price formula. build.py prints it on the pages, assets/js/quote.js reads it at runtime.",
   "currency": "USD",
   "bed_mm": [180, 180, 180],
   "materials": {
