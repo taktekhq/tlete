@@ -192,11 +192,11 @@ def page(lang, path, title, desc, body, ld=(), scripts=(), crumbs=None, og_image
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:url" content="{canonical}">
-<meta property="og:image" content="{url(og_image)}">
+<meta property="og:image" content="{ORIGIN}{asset(og_image)}">
 <meta property="og:locale" content="{'ar_LB' if lang == 'ar' else 'en_US'}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#f7f3ec">
-<link rel="icon" href="{href('/assets/img/favicon.svg')}" type="image/svg+xml">
+<link rel="icon" href="{asset('/assets/img/favicon.svg')}" type="image/svg+xml">
 <link rel="stylesheet" href="{asset('/assets/css/style.css')}">
 {'<link rel="preload" href="' + href('/assets/fonts/noto-kufi-arabic-arabic.woff2') + '" as="font" type="font/woff2" crossorigin>' if lang == 'ar' else ''}
 <script async src="https://www.googletagmanager.com/gtag/js?id={S['ga4']}"></script>
@@ -372,7 +372,7 @@ def example_cards(lang):
             ten = price(x["m"], mat, qty=10)["total"]
             batch = f' <span class="meta">· {"10 قطع حوالي" if lang == "ar" else "10 for about"} {money(ten)}</span>'
         out.append(f"""<article class="card">
-<img src="{href(f'/assets/img/{slug}.webp')}" width="800" height="600" alt="{e(name)}: {e(t['render_note'])}" loading="lazy">
+<img src="{asset(f'/assets/img/{slug}.webp')}" width="800" height="600" alt="{e(name)}: {e(t['render_note'])}" loading="lazy">
 <div class="body"><h3>{e(name)}</h3><p>{e(d)}</p><div class="meta">{meta}</div>
 <div class="price">{about} {pr(slug)}{batch}</div>
 <a class="try" href="{href(lp(lang, '/quote/'))}?try={slug}">{cta}</a></div>
@@ -411,7 +411,7 @@ def home(lang):
 <p class="lead">حمّل ملف STL أو 3MF وبتشوف السعر التقديري بثواني. منطبع على Bambu Lab A1 Mini بالـPLA والـPETG والـTPU، ومنوصّل لكل لبنان.</p>
 <div class="btns"><a class="btn primary" href="{href('/ar/quote/')}">احسب السعر هلّق</a>{wa_btn(lang, where='hero')}</div>
 <div class="answer" style="margin-top:22px"><p><strong>قدّيش بتكلّف؟</strong> {money(P['materials']['PLA']['per_gram'])} للغرام PLA + {money(P['per_hour'])} لساعة الطباعة + {money(P['handling'])} للطلب، والحد الأدنى {money(P['min_order'])}. ميدالية أرزة حوالي {pr('cedar-keychain')}، ستاند تلفون حوالي {pr('phone-stand')}.</p></div>
-</div><div class="hero-art"><img src="{href('/assets/img/phone-stand.webp')}" width="800" height="600" alt="ستاند تلفون: {e(L[lang]['render_note'])}"><span class="tag">{e(L[lang]['render_note'])}</span></div></div></section>
+</div><div class="hero-art"><img src="{asset('/assets/img/phone-stand.webp')}" width="800" height="600" alt="ستاند تلفون: {e(L[lang]['render_note'])}"><span class="tag">{e(L[lang]['render_note'])}</span></div></div></section>
 
 <section class="alt" id="print"><div class="wrap">
 <h2>شو منطبع</h2>
@@ -456,7 +456,7 @@ def home(lang):
 <p class="lead">Upload an STL or 3MF and see an estimated price in seconds. We print on a Bambu Lab A1 Mini in PLA, PETG and TPU, and deliver anywhere in Lebanon.</p>
 <div class="btns"><a class="btn primary" href="{href('/quote/')}">Get an instant quote</a>{wa_btn(lang, where='hero')}</div>
 <div class="answer" style="margin-top:22px"><p><strong>How much?</strong> {money(P['materials']['PLA']['per_gram'])} per gram of PLA + {money(P['per_hour'])} per print hour + {money(P['handling'])} per order, minimum {money(P['min_order'])}. A cedar keychain is about {pr('cedar-keychain')}, a phone stand about {pr('phone-stand')}.</p></div>
-</div><div class="hero-art"><img src="{href('/assets/img/phone-stand.webp')}" width="800" height="600" alt="Phone stand: {e(L[lang]['render_note'])}"><span class="tag">{e(L[lang]['render_note'])}</span></div></div></section>
+</div><div class="hero-art"><img src="{asset('/assets/img/phone-stand.webp')}" width="800" height="600" alt="Phone stand: {e(L[lang]['render_note'])}"><span class="tag">{e(L[lang]['render_note'])}</span></div></div></section>
 
 <section class="alt" id="print"><div class="wrap">
 <h2>What we print</h2>
