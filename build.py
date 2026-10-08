@@ -35,6 +35,13 @@ def href(path):  # site-relative link
     return BASE + path
 
 
+def asset(path):
+    """Asset link with a content hash, so Cloudflare's 4 h cache never serves stale CSS/JS after a deploy."""
+    import hashlib
+    h = hashlib.sha256((ROOT / path.lstrip("/")).read_bytes()).hexdigest()[:8]
+    return f"{href(path)}?v={h}"
+
+
 def money(v):
     s = f"{v:.2f}"
     return "$" + (s[:-3] if s.endswith(".00") else s)
@@ -162,7 +169,7 @@ def page(lang, path, title, desc, body, ld=(), scripts=(), crumbs=None, og_image
                 {"@type": "ListItem", "position": 2, "name": crumbs, "item": canonical},
             ]}]
     ld_html = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in ld)
-    js = "".join(f'<script src="{href(s)}" defer></script>' for s in scripts)
+    js = "".join(f'<script src="{asset(s)}" defer></script>' for s in scripts)
     foot_links = "".join(f'<li><a href="{href(lp(lang, p))}">{e(n)}</a></li>' for p, n in t["nav"][1:]) + f'<li><a href="{href(lp(lang, "/privacy/"))}">{e(t["privacy"])}</a></li>'
     form_cfg = json.dumps(S["form"])
     doc = f"""<!doctype html>
@@ -186,7 +193,7 @@ def page(lang, path, title, desc, body, ld=(), scripts=(), crumbs=None, og_image
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#f7f3ec">
 <link rel="icon" href="{href('/assets/img/favicon.svg')}" type="image/svg+xml">
-<link rel="stylesheet" href="{href('/assets/css/style.css')}">
+<link rel="stylesheet" href="{asset('/assets/css/style.css')}">
 {'<link rel="preload" href="' + href('/assets/fonts/noto-kufi-arabic-arabic.woff2') + '" as="font" type="font/woff2" crossorigin>' if lang == 'ar' else ''}
 <script async src="https://www.googletagmanager.com/gtag/js?id={S['ga4']}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','{S['ga4']}',{{site:'tlete'}});
@@ -213,7 +220,7 @@ window.TLETE_BASE={json.dumps(BASE)};window.TLETE_WA={json.dumps(WA)};window.TLE
 <p class="small">© {date.today().year} Tlete · {e(t['tagline'])}</p>
 </div></footer>
 {wa_btn(lang, t['wa_label'], cls='btn wa wa-float', where='float')}
-<script src="{href('/assets/js/site.js')}" defer></script>
+<script src="{asset('/assets/js/site.js')}" defer></script>
 {js}
 </body>
 </html>
