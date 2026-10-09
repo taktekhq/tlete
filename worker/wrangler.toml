@@ -6,7 +6,7 @@ workers_dev = true
 # Create once from the Mac:  npx wrangler kv namespace create TLETE   (then paste the id below)
 [[kv_namespaces]]
 binding = "KV"
-id = "REPLACE_WITH_KV_ID"
+id = "eee89c64745e41ec83a5bea4d05e9bbf"
 
 [observability]
 enabled = true

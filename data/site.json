@@ -8,8 +8,8 @@
   "whatsapp_display": "+961 81 511 232",
   "ga4": "G-MY112CQXP6",
   "form": {
-    "url": "https://taktek-audit.taktek-5f0.workers.dev/api/lead",
-    "mode": "work",
-    "emailRequired": true
+    "url": "https://tlete-forms.taktek-5f0.workers.dev/api/request",
+    "mode": "tlete",
+    "emailRequired": false
   }
 }
